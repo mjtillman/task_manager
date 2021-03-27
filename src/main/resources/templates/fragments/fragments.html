@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<nav th:fragment="navigation" class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Task Manager</a>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main>
+    <div th:fragment="login" class="container-fluid pt-5">
+        <h3 class="mb-3">Login</h3>
+        <form action="/" th:action="@{/}" th:object="${user}"
+            method="POST" id="login">
+            <div class="mb-4">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" th:field="*{email}"
+                       class="form-control" id="email" />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" th:field="*{password}" class="form-control" id="password" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+    <div th:fragment="register" class="container-fluid pt-5">
+        <h3 class="mb-3">Register</h3>
+        <form action="/register" th:action="@{/register}" th:object="${user}"
+              method="POST" id="register">
+            <div class="mb-4">
+                <label for="regEmail" class="form-label">Email address</label>
+                <input type="email" th:field="*{email}" class="form-control"
+                       id="regEmail" />
+            </div>
+            <div class="mb-3">
+                <label for="regPassword" class="form-label">Password</label>
+                <input type="password" th:field="*{password}" class="form-control"
+                       id="regPassword" />
+            </div>
+            <div class="mb-3">
+                <label for="confirm" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div th:fragment="landing" class="container-fluid pt-5">
+        <h4>Your Tasks</h4>
+
+    </div>
+
+</main>
+</html>
