@@ -2,7 +2,6 @@ package com.taskmanager.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,7 +18,7 @@ public class User {
    private String email;
 
    @Column
-   @NotNull @Min(4)
+   @NotNull
    private String password;
 
    public User() {}

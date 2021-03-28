@@ -1,16 +1,17 @@
 package com.taskmanager.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.taskmanager.exceptions.InvalidLoginException;
+import com.taskmanager.exceptions.InvalidRegistrationException;
 import com.taskmanager.model.User;
 import com.taskmanager.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -18,50 +19,54 @@ public class LoginController {
    @Autowired
    UserService userService;
 
+   Logger log = LoggerFactory.getLogger(LoginController.class);
+
    @GetMapping({"/", "/login"})
-   public ModelAndView home() {
-      ModelAndView mav = new ModelAndView("index");
-      mav.addObject("user", new User());
-      mav.addObject("content", "login");
-      return mav;
+   public String home(Model model) {
+      model.addAttribute("user", new User());
+      model.addAttribute("content", "login");
+      return "index";
    }
 
    @PostMapping({"/", "/login"})
-   public String submitLogin(@ModelAttribute User user, Model model) throws InvalidLoginException {
-
+   public String submitLogin(@ModelAttribute User user,
+                             Model model) throws InvalidLoginException {
       User checkUser;
       checkUser = userService.getUserByEmail(user.getEmail());
 
       String password = user.getPassword();
 
       if (password.equals(checkUser.getPassword())) {
-         model.addAttribute("content", "landing");
-         model.addAttribute("email", checkUser.getEmail());
+         model.addAttribute("logUser", user);
       } else {
          throw new InvalidLoginException(user.getEmail());
       }
 
-      return "index";
+      return "landing";
    }
 
    @GetMapping("/register")
    public String regForm(Model model) {
-      model.addAttribute("user", new User());
-      model.addAttribute("content", "register");
-      model.addAttribute("confirmPassword", null);
-      return "index";
+      model.addAttribute("newUser", new User());
+      return "register";
    }
 
    @PostMapping("/register")
-   public ModelAndView register( @ModelAttribute User newUser,
-                                 @ModelAttribute String confirmPassword) {
+   public String register( @ModelAttribute User newUser,
+                           Model model) throws InvalidRegistrationException {
 
-      ModelAndView mav = new ModelAndView("index");
+      log.debug("New User: {}", newUser.getEmail());
 
-      User userExists = userService.getUserByEmail(newUser.getEmail());
+      String checkEmail = userService.getUserByEmail(newUser.getEmail()).toString();
 
+      log.debug("Check User: {}", checkEmail);
 
-      mav.addObject("content", "login");
+      if (checkEmail.isEmpty()) {
+         throw new InvalidRegistrationException();
+      } else {
+         userService.updateUser(newUser);
+         model.addAttribute("regSuccess", true);
+      }
       return "index";
    }
 }

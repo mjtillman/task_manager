@@ -22,11 +22,7 @@ public class UserService {
    public User getUserByEmail(String email) throws InvalidLoginException {
       Optional<User> foundUser = Optional.ofNullable(userRepo.findByEmail(email));
 
-      if (!foundUser.isPresent()) {
-         throw new InvalidLoginException(email);
-      }
-
-      return foundUser.get();
+      return foundUser.orElseGet(User::new);
    }
 
    public User updateUser(User updateUser) {
