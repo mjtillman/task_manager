@@ -2,7 +2,9 @@ package com.taskmanager.controllers;
 
 import com.taskmanager.exceptions.InvalidLoginException;
 import com.taskmanager.exceptions.InvalidRegistrationException;
+import com.taskmanager.model.Task;
 import com.taskmanager.model.User;
+import com.taskmanager.services.TaskService;
 import com.taskmanager.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class LoginController {
 
    @Autowired
    UserService userService;
+
+   @Autowired
+   TaskService taskService;
 
    Logger log = LoggerFactory.getLogger(LoginController.class);
 
@@ -37,12 +44,14 @@ public class LoginController {
       String password = user.getPassword();
 
       if (password.equals(checkUser.getPassword())) {
-         model.addAttribute("logUser", user);
+         List<Task> tasks = taskService.getTasksByEmail(user.getEmail());
+         model.addAttribute("logEmail", user.getEmail());
+         model.addAttribute("tasks", tasks);
       } else {
          throw new InvalidLoginException(user.getEmail());
       }
 
-      return "landing";
+      return "/tasks/view_tasks";
    }
 
    @GetMapping("/register")

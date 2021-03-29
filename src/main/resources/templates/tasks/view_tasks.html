@@ -12,8 +12,30 @@
    <div class="col-3"></div>
    <div class="col-6">
       <div class="container-fluid pt-5">
-        <h3 class="mb-3">Your Tasks</h3>
-
+         <h3 class="mb-3">Your Tasks</h3>
+         <div th:if="${tasks.isEmpty()}">
+            <em>You have no tasks.</em>
+         </div>
+         <div th:if="${!tasks.isEmpty()}">
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>Severity</th>
+                     <th>Task</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <form>
+               <tbody th:each="task: ${tasks}">
+                  <tr>
+                     <td><span th:text="${task.getSeverity()}"></span></td>
+                     <td><span th:text="${task.getName()}"></span></td>
+                     <td><span th:text="${task.getDescription()}"></span></td>
+                  </tr>
+               </tbody>
+               </form>
+            </table>
+         </div>
       </div>
    </div>
    <div class="col-3"></div>
