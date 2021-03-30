@@ -8,10 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -33,25 +36,23 @@ public class LoginController {
    @GetMapping("/register")
    public ModelAndView regForm() {
       ModelAndView mav = new ModelAndView("register");
-      mav.addObject("newUser", new User());
+      mav.addObject("user", new User());
       return mav;
    }
 
    @PostMapping("/register")
-   public String register( @ModelAttribute User newUser,
-                           Model model) throws InvalidRegistrationException {
+   public String register(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) throws InvalidRegistrationException {
 
-      log.debug("New User: {}", newUser.getUsername());
+      if (result.hasErrors()) {
+         return "register";
+      }
 
-      String checkEmail = userService.getUserByEmail(newUser.getUsername()).toString();
-
-      log.debug("Check User: {}", checkEmail);
+      String checkEmail = userService.getUserByEmail(user.getUsername()).toString();
 
       if (checkEmail.isEmpty()) {
          throw new InvalidRegistrationException();
       } else {
-         userService.updateUser(newUser);
-         model.addAttribute("regSuccess", true);
+         userService.updateUser(user);
       }
       return "index";
    }

@@ -1,5 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
@@ -27,21 +28,21 @@
    <div class="col-6">
       <div th:fragment="register" class="container-fluid pt-5">
          <h3 class="mb-3">Register</h3>
-         <form action="/register" method="POST" id="register">
+         <form:form action="/register" method="POST" modelAttributre="user">
             <div class="mb-4">
-               <label for="username" class="form-label">Email address</label>
-               <input type="email" class="form-control" id="username" />
+               <form:label path="username" class="form-label">Email address</form:label>
+               <form:input path="username" type="email" class="form-control" />
             </div>
             <div class="mb-3">
-               <label for="password" class="form-label">Password</label>
-               <input type="password" class="form-control" id="password" />
+               <form:label path="password" class="form-label">Password</form:label>
+               <form:input path="password" class="form-control" id="password" />
             </div>
             <div class="mb-3">
                <label for="confirmPassword" class="form-label">Confirm Password</label>
                <input type="password" class="form-control" id="confirmPassword" />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-         </form>
+         </form:form>
       </div>
    </div>
    <div class="col-3"></div>
