@@ -23,28 +23,28 @@ public class TaskController {
 
       List<Task> tasks = taskService.getTasksByEmail(logEmail);
       model.addAttribute("tasks", tasks);
-      return "/tasks/view_tasks";
+      return "view_tasks.jsp";
    }
 
    @GetMapping("/tasks/add_tasks")
    public String addTasks(@ModelAttribute User user,
                           Model model) {
-      List<Task> tasks = taskService.getTasksByEmail(user.getEmail());
+      List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
       model.addAttribute("tasks", tasks);
-      return "/tasks/add_tasks";
+      return "add_tasks.jsp";
    }
 
    @GetMapping("/tasks/update")
    public String updateTasks(@ModelAttribute User user, Model model) {
-      List<Task> tasks = taskService.getTasksByEmail(user.getEmail());
+      List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
       model.addAttribute("tasks", tasks);
-      return "/tasks/update_tasks";
+      return "update_tasks.jsp";
    }
 
    @GetMapping("/tasks/remove")
    public String removeTasks(@ModelAttribute User user, Model model) {
-      List<Task> tasks = taskService.getTasksByEmail(user.getEmail());
+      List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
       model.addAttribute("tasks", tasks);
-      return "/tasks/remove_tasks";
+      return "remove_tasks.jsp";
    }
 }

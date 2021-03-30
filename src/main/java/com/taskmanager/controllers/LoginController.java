@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -32,41 +33,42 @@ public class LoginController {
    public String home(Model model) {
       model.addAttribute("user", new User());
       model.addAttribute("content", "login");
-      return "index";
+      return "index.jsp";
    }
 
    @PostMapping({"/", "/login"})
    public String submitLogin(@ModelAttribute User user,
                              Model model) throws InvalidLoginException {
       User checkUser;
-      checkUser = userService.getUserByEmail(user.getEmail());
+      checkUser = userService.getUserByEmail(user.getUsername());
 
       String password = user.getPassword();
 
       if (password.equals(checkUser.getPassword())) {
-         List<Task> tasks = taskService.getTasksByEmail(user.getEmail());
-         model.addAttribute("logEmail", user.getEmail());
+         List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
+         model.addAttribute("username", user.getUsername());
          model.addAttribute("tasks", tasks);
       } else {
-         throw new InvalidLoginException(user.getEmail());
+         throw new InvalidLoginException(user.getUsername());
       }
 
       return "/tasks/view_tasks";
    }
 
    @GetMapping("/register")
-   public String regForm(Model model) {
-      model.addAttribute("newUser", new User());
-      return "register";
+   public ModelAndView regForm() {
+      ModelAndView mav = new ModelAndView("/register");
+      mav.addObject("newUser", new User());
+      return mav;
    }
 
    @PostMapping("/register")
    public String register( @ModelAttribute User newUser,
                            Model model) throws InvalidRegistrationException {
 
-      log.debug("New User: {}", newUser.getEmail());
+      log.debug("New User: {}", newUser.getUsername());
 
-      String checkEmail = userService.getUserByEmail(newUser.getEmail()).toString();
+      String checkEmail = userService.getUserByEmail(newUser.getUsername()).toString();
 
       log.debug("Check User: {}", checkEmail);
 
@@ -76,6 +78,6 @@ public class LoginController {
          userService.updateUser(newUser);
          model.addAttribute("regSuccess", true);
       }
-      return "index";
+      return "index.jsp";
    }
 }

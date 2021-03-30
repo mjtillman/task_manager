@@ -20,7 +20,7 @@ public class UserService {
    }
 
    public User getUserByEmail(String email) throws InvalidLoginException {
-      Optional<User> foundUser = Optional.ofNullable(userRepo.findByEmail(email));
+      Optional<User> foundUser = Optional.ofNullable(userRepo.findByUsername(email));
 
       return foundUser.orElseGet(User::new);
    }

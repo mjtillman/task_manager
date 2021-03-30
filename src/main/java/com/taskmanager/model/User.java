@@ -1,8 +1,14 @@
 package com.taskmanager.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +21,7 @@ public class User {
 
    @Column
    @NotNull @Email
-   private String email;
+   private String username;
 
    @Column
    @NotNull
@@ -23,8 +29,8 @@ public class User {
 
    public User() {}
 
-   public User(final String email, final String password) {
-      this.email = email;
+   public User(final String username, final String password) {
+      this.username = username;
       this.password = password;
    }
 
@@ -32,12 +38,12 @@ public class User {
       return id;
    }
 
-   public String getEmail() {
-      return email;
+   public String getUsername() {
+      return username;
    }
 
    public void setEmail(String email) {
-      this.email = email;
+      this.username = email;
    }
 
    public String getPassword() {
@@ -46,5 +52,9 @@ public class User {
 
    public void setPassword(String password) {
       this.password = password;
+   }
+
+   public List<GrantedAuthority> getRoles() {
+      return new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority("USER")));
    }
 }

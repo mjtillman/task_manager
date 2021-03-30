@@ -12,27 +12,29 @@
 <main class="row">
    <div class="col-3"></div>
    <div class="col-6">
-      <div class="container-fluid pt-5">
-         <h3 class="mb-3">Login</h3>
-         <div th:if="${regSuccess == true}" class="mb-3">
-            Registration successful, please log in.
+      <div th:fragment="register" class="container-fluid pt-5">
+         <h3 class="mb-3">Register</h3>
+<!--         <div th:if="${regSuccess == true}">-->
+<!--            Registration successful, please log in.-->
+<!--         </div>-->
+         <div th:if="${regErr == true}" class="mb-3">
+            <em>Registration failed, please try again.</em>
          </div>
-         <div th:if="${loginErr == true}" class="mb-3">
-            <em>Invalid credentials, please try again.</em>
-         </div>
-         <div th:if="${regSuccess == true}" class="mb-3">
-            <em>Registration successful, please log in.</em>
-         </div>
-         <form action="/" th:action="@{/}" th:object="${user}"
-               method="POST" id="login">
+         <form action="/register" th:action="@{/register}" th:object="${newUser}"
+               method="POST" id="register">
             <div class="mb-4">
-               <label for="email" class="form-label">Email address</label>
-               <input type="email" th:field="*{email}"
-                      class="form-control" id="email" />
+               <label for="regEmail" class="form-label">Email address</label>
+               <input type="email" th:field="*{username}" class="form-control"
+                      id="regEmail" />
             </div>
             <div class="mb-3">
-               <label for="password" class="form-label">Password</label>
-               <input type="password" th:field="*{password}" class="form-control" id="password" />
+               <label for="regPassword" class="form-label">Password</label>
+               <input type="password" th:field="*{password}" class="form-control"
+                      id="regPassword" />
+            </div>
+            <div class="mb-3">
+               <label for="confirmPassword" class="form-label">Confirm Password</label>
+               <input type="password" class="form-control" id="confirmPassword" />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
          </form>
