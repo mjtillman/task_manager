@@ -1,14 +1,9 @@
 package com.taskmanager.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,7 +11,7 @@ public class User {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column
+   @Column(name="user_id")
    private Long id;
 
    @Column
@@ -26,6 +21,10 @@ public class User {
    @Column
    @NotNull
    private String password;
+
+   @ManyToMany(cascade = CascadeType.MERGE)
+   @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+   private Set<Role> roles;
 
    public User() {}
 
@@ -42,6 +41,10 @@ public class User {
       return username;
    }
 
+   public void setUsername(String username) {
+      this.username = username;
+   }
+
    public void setEmail(String email) {
       this.username = email;
    }
@@ -54,7 +57,11 @@ public class User {
       this.password = password;
    }
 
-   public List<GrantedAuthority> getRoles() {
-      return new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority("USER")));
+   public Set<Role> getRoles() {
+      return roles;
+   }
+
+   public void setRoles(Set<Role> roles) {
+      this.roles = roles;
    }
 }

@@ -41,18 +41,18 @@ public class LoginController {
    }
 
    @PostMapping("/register")
-   public String register(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) throws InvalidRegistrationException {
+   public String register(@Valid User user, BindingResult result) throws InvalidRegistrationException {
 
       if (result.hasErrors()) {
          return "register";
       }
 
-      String checkEmail = userService.getUserByEmail(user.getUsername()).toString();
+      String checkEmail = userService.getUserByUsername(user.getUsername()).toString();
 
       if (checkEmail.isEmpty()) {
          throw new InvalidRegistrationException();
       } else {
-         userService.updateUser(user);
+         userService.saveUser(user);
       }
       return "index";
    }

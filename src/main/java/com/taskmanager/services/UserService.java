@@ -4,13 +4,16 @@ import com.taskmanager.exceptions.InvalidLoginException;
 import com.taskmanager.model.User;
 import com.taskmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
+
+   @Autowired
+   BCryptPasswordEncoder encoder;
 
    @Autowired
    private UserRepository userRepo;
@@ -19,13 +22,14 @@ public class UserService {
       return userRepo.findAll();
    }
 
-   public User getUserByEmail(String email) throws InvalidLoginException {
+   public User getUserByUsername(String email) throws InvalidLoginException {
       Optional<User> foundUser = Optional.ofNullable(userRepo.findByUsername(email));
 
       return foundUser.orElseGet(User::new);
    }
 
-   public User updateUser(User updateUser) {
-      return userRepo.save(updateUser);
+   public void saveUser(User user) {
+      user.setPassword(encoder.encode(user.getPassword()));
+      userRepo.save(user);
    }
 }

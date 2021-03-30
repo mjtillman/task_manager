@@ -9,8 +9,8 @@ public class Task {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column
-   private Integer id;
+   @Column(name="task_id")
+   private Long id;
 
    @Column
    @NotNull
@@ -42,7 +42,7 @@ public class Task {
       this.user = user;
    }
 
-   public Integer getId() {
+   public Long getId() {
       return id;
    }
 
