@@ -1,8 +1,5 @@
 package com.taskmanager.controllers;
-
-import com.taskmanager.exceptions.InvalidLoginException;
 import com.taskmanager.exceptions.InvalidRegistrationException;
-import com.taskmanager.model.Task;
 import com.taskmanager.model.User;
 import com.taskmanager.services.TaskService;
 import com.taskmanager.services.UserService;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 public class LoginController {
@@ -32,32 +27,12 @@ public class LoginController {
    @GetMapping({"/", "/login"})
    public String home(Model model) {
       model.addAttribute("user", new User());
-      model.addAttribute("content", "login");
-      return "index.jsp";
-   }
-
-   @PostMapping({"/", "/login"})
-   public String submitLogin(@ModelAttribute User user,
-                             Model model) throws InvalidLoginException {
-      User checkUser;
-      checkUser = userService.getUserByEmail(user.getUsername());
-
-      String password = user.getPassword();
-
-      if (password.equals(checkUser.getPassword())) {
-         List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
-         model.addAttribute("username", user.getUsername());
-         model.addAttribute("tasks", tasks);
-      } else {
-         throw new InvalidLoginException(user.getUsername());
-      }
-
-      return "/tasks/view_tasks";
+      return "index";
    }
 
    @GetMapping("/register")
    public ModelAndView regForm() {
-      ModelAndView mav = new ModelAndView("/register");
+      ModelAndView mav = new ModelAndView("register");
       mav.addObject("newUser", new User());
       return mav;
    }
@@ -78,6 +53,6 @@ public class LoginController {
          userService.updateUser(newUser);
          model.addAttribute("regSuccess", true);
       }
-      return "index.jsp";
+      return "index";
    }
 }

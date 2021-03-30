@@ -1,3 +1,5 @@
+<%@page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
@@ -6,31 +8,33 @@
    <meta charset="UTF-8">
    <title>Task Manager - Welcome</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-
 </head>
-<nav th:insert="fragments/fragments :: navigation"></nav>
+<nav class="navbar navbar-light bg-light">
+   <div class="container-fluid">
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Task Manager</a>
+      <ul class="nav">
+         <li class="nav-item">
+            <a class="nav-link active" href="${pageContext.request.contextPath}/index">Login</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/register">Register</a>
+         </li>
+      </ul>
+   </div>
+</nav>
 <main class="row">
    <div class="col-3"></div>
    <div class="col-6">
       <div th:fragment="register" class="container-fluid pt-5">
          <h3 class="mb-3">Register</h3>
-<!--         <div th:if="${regSuccess == true}">-->
-<!--            Registration successful, please log in.-->
-<!--         </div>-->
-         <div th:if="${regErr == true}" class="mb-3">
-            <em>Registration failed, please try again.</em>
-         </div>
-         <form action="/register" th:action="@{/register}" th:object="${newUser}"
-               method="POST" id="register">
+         <form action="/register" method="POST" id="register">
             <div class="mb-4">
-               <label for="regEmail" class="form-label">Email address</label>
-               <input type="email" th:field="*{username}" class="form-control"
-                      id="regEmail" />
+               <label for="username" class="form-label">Email address</label>
+               <input type="email" class="form-control" id="username" />
             </div>
             <div class="mb-3">
-               <label for="regPassword" class="form-label">Password</label>
-               <input type="password" th:field="*{password}" class="form-control"
-                      id="regPassword" />
+               <label for="password" class="form-label">Password</label>
+               <input type="password" class="form-control" id="password" />
             </div>
             <div class="mb-3">
                <label for="confirmPassword" class="form-label">Confirm Password</label>

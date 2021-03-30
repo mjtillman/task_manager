@@ -33,7 +33,7 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
       http.
             authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers("/registration").permitAll()
+            .antMatchers("/register").permitAll()
             .antMatchers("/tasks/**").hasAuthority("USER")
             .anyRequest()
             .authenticated()
