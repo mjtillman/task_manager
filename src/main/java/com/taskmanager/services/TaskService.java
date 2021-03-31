@@ -27,4 +27,8 @@ public class TaskService {
    public void saveTask(Task task) {
       taskRepo.save(task);
    }
+
+   public void updateTask(Task task) { taskRepo.save(task); }
+
+   public void deleteTask(Task task) { taskRepo.delete(task); }
 }

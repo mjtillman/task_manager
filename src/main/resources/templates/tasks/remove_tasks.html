@@ -13,6 +13,13 @@
    <div class="col-6">
       <div class="container-fluid pt-5">
          <h3 class="mb-3">Remove Tasks</h3>
+         <form th:action="@{/tasks/remove_tasks}" method="post">
+            <select name="removeTask">
+               <option th:value="${null}">Select ID:</option>
+               <option th:each="task: ${tasks}" th:value="${task.id}" th:text="${task.id}"></option>
+            </select>
+            <button type="submit">Submit</button>
+         </form>
          <div th:if="${tasks.isEmpty()}">
             <em>You have no tasks to remove.</em>
          </div>
@@ -26,16 +33,14 @@
                   <th>Description</th>
                </tr>
                </thead>
-               <form>
                   <tbody th:each="task: ${tasks}">
                   <tr>
-                     <td><input type="checkbox" /></td>
-                     <td><span th:text="${task.getSeverity()}"></span></td>
-                     <td><span th:text="${task.getName()}"></span></td>
-                     <td><span th:text="${task.getDescription()}"></span></td>
+                     <td><span th:text="${task.id}"></td>
+                     <td><span th:text="${task.severity}"></span></td>
+                     <td><span th:text="${task.name}"></span></td>
+                     <td><span th:text="${task.description}"></span></td>
                   </tr>
                   </tbody>
-               </form>
             </table>
          </div>
       </div>
