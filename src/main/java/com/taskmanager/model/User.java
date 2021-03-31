@@ -10,9 +10,9 @@ import java.util.Set;
 public class User {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name="user_id")
-   private Long id;
+   private Integer id;
 
    @Column
    @NotNull @Email
@@ -33,7 +33,7 @@ public class User {
       this.password = password;
    }
 
-   public Long getId() {
+   public Integer getId() {
       return id;
    }
 

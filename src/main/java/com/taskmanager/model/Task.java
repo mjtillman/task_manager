@@ -1,16 +1,19 @@
 package com.taskmanager.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name="task_id")
-   private Long id;
+   private Integer id;
 
    @Column
    @NotNull
@@ -21,6 +24,14 @@ public class Task {
 
    @Column
    private String description;
+
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
+   @Column(name = "start_date")
+   private Date startDate;
+
+   @DateTimeFormat(pattern = "yyyy-MM-dd")
+   @Column(name = "end_date")
+   private Date endDate;
 
    @Column
    private String email;
@@ -42,7 +53,7 @@ public class Task {
       this.user = user;
    }
 
-   public Long getId() {
+   public Integer getId() {
       return id;
    }
 
@@ -60,6 +71,22 @@ public class Task {
 
    public void setSeverity(String severity) {
       this.severity = severity;
+   }
+
+   public Date getStartDate() {
+      return startDate;
+   }
+
+   public void setStartDate(Date startDate) {
+      this.startDate = startDate;
+   }
+
+   public Date getEndDate() {
+      return endDate;
+   }
+
+   public void setEndDate(Date endDate) {
+      this.endDate = endDate;
    }
 
    public String getDescription() {

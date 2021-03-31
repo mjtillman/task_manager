@@ -7,14 +7,19 @@
    <title>Task Manager - Welcome</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
-<nav th:insert="fragments/fragments :: navigation"></nav>
+<nav th:insert="/fragments/navigation :: navigation"></nav>
 <main class="row">
    <div class="col-3"></div>
    <div class="col-6">
       <div class="container-fluid pt-5">
-         <h3 class="mb-3">Add Tasks</h3>
+         <h3 class="mb-3">Update Tasks</h3>
+         <form th:action="@{/tasks/update_task}" th:object="${updateId}" method="post">
+            <select name="Select ID:" id="updateId">
+               <option th:each="task: ${tasks}" value="${task.id}"></option>
+            </select>
+         </form>
          <div th:if="${tasks.isEmpty()}">
-            <em>You have no tasks to remove.</em>
+            <em>You have no tasks to update.</em>
          </div>
          <div th:if="${!tasks.isEmpty()}">
             <table class="table">
@@ -26,16 +31,14 @@
                   <th>Description</th>
                </tr>
                </thead>
-               <form>
-                  <tbody th:each="task: ${tasks}">
+               <tbody th:each="task: ${tasks}">
                   <tr>
-                     <td><input type="checkbox" /></td>
-                     <td><span th:text="${task.getSeverity()}"></span></td>
-                     <td><span th:text="${task.getName()}"></span></td>
-                     <td><span th:text="${task.getDescription()}"></span></td>
+                     <td><span th:text="${task.id}"></span></td>
+                     <td><span th:text="${task.severity}"></span></td>
+                     <td><span th:text="${task.name}"></span></td>
+                     <td><span th:text="${task.description}"></span></td>
                   </tr>
                   </tbody>
-               </form>
             </table>
          </div>
       </div>

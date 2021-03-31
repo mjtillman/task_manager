@@ -1,7 +1,9 @@
 package com.taskmanager.services;
 
 import com.taskmanager.exceptions.InvalidLoginException;
+import com.taskmanager.model.Role;
 import com.taskmanager.model.User;
+import com.taskmanager.repositories.RoleRepository;
 import com.taskmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,9 @@ public class UserService {
    @Autowired
    private UserRepository userRepo;
 
+   @Autowired
+   private RoleRepository roleRepo;
+
    public List<User> getAllUsers() {
       return userRepo.findAll();
    }
@@ -30,6 +35,9 @@ public class UserService {
 
    public void saveUser(User user) {
       user.setPassword(encoder.encode(user.getPassword()));
+      Set<Role> roles = new HashSet<>();
+      roles.add(roleRepo.findByRole("USER"));
+      user.setRoles(roles);
       userRepo.save(user);
    }
 }

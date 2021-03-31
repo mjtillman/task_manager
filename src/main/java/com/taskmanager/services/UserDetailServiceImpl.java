@@ -32,14 +32,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles){
       Set<GrantedAuthority> roles = new HashSet<>();
-      if (userRoles == null) {
-         Role role = roleRepo.findByRole("USER");
-         roles.add(new SimpleGrantedAuthority(role.getRole()));
-      } else {
+
          for (Role role : userRoles) {
             roles.add(new SimpleGrantedAuthority(role.getRole()));
          }
-      }
+
       return new ArrayList<>(roles);
    }
 
