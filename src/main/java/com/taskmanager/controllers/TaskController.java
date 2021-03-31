@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -71,24 +72,23 @@ public class TaskController {
       ModelAndView mav = new ModelAndView("/tasks/update_tasks");
       List<Task> tasks = taskService.getTasksByEmail(user.getUsername());
       mav.addObject("user", user);
-      mav.addObject("updateId", "");
       mav.addObject("tasks", tasks);
       return mav;
    }
 
    @PostMapping("/tasks/update_task")
-   public ModelAndView updateForm(@ModelAttribute String updateId, Model model) throws Exception {
+   public ModelAndView updateForm(@RequestParam (value="updateTask") String updateTask) {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      int id = Integer.parseInt(updateId);
+      Integer id = Integer.parseInt(updateTask);
       User user = userService.getUserByUsername(auth.getName());
-      Optional<Task> updateTask = taskService.getTaskById(id);
+      Optional<Task> update = taskService.getTaskById(id);
 
       ModelAndView mav = new ModelAndView();
 
-      if (updateTask.isPresent()) {
+      if (update.isPresent()) {
          mav.setViewName("/tasks/update_form");
          mav.addObject("user", user);
-         mav.addObject("updateTask", updateTask);
+         mav.addObject("updateTask", update);
       } else {
          mav.setViewName("/tasks/update_tasks");
       }
@@ -97,10 +97,22 @@ public class TaskController {
    }
 
    @GetMapping("/tasks/update_form")
-   public ModelAndView sendUpdateForm(Model model) {
+   public ModelAndView sendUpdateForm(@ModelAttribute Task updateTask) {
       ModelAndView mav = new ModelAndView("/tasks/update_form");
-      mav.addObject("user", model.getAttribute("user"));
-      mav.addObject("updateTask", model.getAttribute("updateTask"));
+      mav.addObject("updateTask", updateTask);
+      return mav;
+   }
+
+   @GetMapping("/tasks/update_form")
+   public ModelAndView postUpdateForm(@RequestParam (value=""),
+                                      @RequestParam (value=""),
+                                      @RequestParam (value=""),
+                                      @RequestParam (value=""),
+                                      @RequestParam (value=""),
+
+                                      ) {
+      ModelAndView mav = new ModelAndView("/tasks/update_form");
+      mav.addObject("updateTask", updateTask);
       return mav;
    }
 

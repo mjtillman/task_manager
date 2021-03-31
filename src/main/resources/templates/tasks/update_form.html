@@ -18,21 +18,21 @@
             <div class="row mb-3">
                <div class="col">
                   <label for="username" class="form-label"><span th:text="${user.username}"></span></label>
-                  <input type="hidden" th:field="*{name}" th:value="${user.username}" class="form-control"
+                  <input type="hidden" th:value="${updateTask.user.username}" class="form-control"
                          id="username" />
                </div>
             </div>
             <div class="row mb-3">
                <div class="col">
                   <label for="taskName" class="form-label">Task Name</label>
-                  <input type="text" th:value="${updateTask.name}" th:field="*{name}" class="form-control"
+                  <input type="text" th:value="${updateTask.name}" class="form-control"
                          id="taskName" />
                </div>
             </div>
             <div class="row mb-3">
                <div class="col">
                   <label for="severity" class="form-label">Severity</label>
-                  <select th:field="*{severity}" th:value="${updateTask.severity}" class="form-control" id="severity">
+                  <select th:value="${updateTask.severity}" class="form-control" id="severity">
                      <option value="Low">Low</option>
                      <option value="Medium">Medium</option>
                      <option value="High">High</option>
@@ -42,17 +42,17 @@
             <div class="row mb-3">
                <div class="col-6">
                   <label for="startDate" class="form-label">Start Date</label>
-                  <input type="date" th:value="${updateTask.startDate}" th:field="*{startDate}" id="startDate" />
+                  <input type="date" th:value="${updateTask.startDate}" id="startDate" />
                </div>
                <div class="col-6">
                   <label for="endDate" class="form-label">End Date</label>
-                  <input type="date" th:value="${updateTask.endDate}"  th:field="*{endDate}" id="endDate" />
+                  <input type="date" th:value="${updateTask.endDate}" id="endDate" />
                </div>
             </div>
             <div class="row mb-3">
                <div class="col">
-                  <label for="task_description" class="form-label">Description</label>
-                  <input type="text" th:value="${updateTask.description}" th:field="*{description}" class="form-control" id="task_description" />
+                  <label for="description" class="form-label">Description</label>
+                  <input type="text" th:value="${updateTask.description}"  class="form-control" id="description" />
                </div>
             </div>
             <div class="row mb-3">

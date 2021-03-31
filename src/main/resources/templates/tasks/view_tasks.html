@@ -27,7 +27,6 @@
                      <th>End Date</th>
                   </tr>
                </thead>
-               <form>
                <tbody th:each="task: ${tasks}">
                   <tr>
                      <td><span th:text="${task.severity}"></span></td>
@@ -37,7 +36,6 @@
                      <td><span th:text="${#dates.format(task.endDate, 'dd-MM-yyyy')}"></span></td>
                   </tr>
                </tbody>
-               </form>
             </table>
          </div>
       </div>

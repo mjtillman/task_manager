@@ -13,10 +13,12 @@
    <div class="col-6">
       <div class="container-fluid pt-5">
          <h3 class="mb-3">Update Tasks</h3>
-         <form th:action="@{/tasks/update_task}" th:object="${updateId}" method="post">
-            <select name="Select ID:" id="updateId">
-               <option th:each="task: ${tasks}" value="${task.id}"></option>
+         <form th:action="@{/tasks/update_task}" method="post">
+            <select name="updateTask">
+               <option th:value="${null}">Select ID:</option>
+               <option th:each="task: ${tasks}" th:value="${task.id}" th:text="${task.id}"></option>
             </select>
+            <button type="submit">Submit</button>
          </form>
          <div th:if="${tasks.isEmpty()}">
             <em>You have no tasks to update.</em>
@@ -38,7 +40,8 @@
                      <td><span th:text="${task.name}"></span></td>
                      <td><span th:text="${task.description}"></span></td>
                   </tr>
-                  </tbody>
+               </tbody>
+               </form>
             </table>
          </div>
       </div>
